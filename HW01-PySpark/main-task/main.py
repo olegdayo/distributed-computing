@@ -1,9 +1,6 @@
 import pyspark.sql.functions as f
 from pyspark.sql import SparkSession
 
-INPUT_PATH: str = 'wnp.txt'
-OUTPUT_PATH: str = 'target'
-
 
 class WordCounter:
     input_path: str
@@ -59,6 +56,10 @@ def super_log(message: str):
     print('-' * 100)
     print('-' * 100)
     print('-' * 100)
+
+
+INPUT_PATH: str = 'wnp.txt'
+OUTPUT_PATH: str = 'target'
 
 
 if __name__ == '__main__':
