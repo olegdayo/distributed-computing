@@ -1,0 +1,20 @@
+# System
+.DS_Store
+
+# IDE
+.fleet/
+.idea/
+.vscode/
+
+# Builders
+gradlew
+settings.gradle
+.gradle/
+
+# Binaries
+*.o
+target/
+build/
+out/
+gradle/
+gradlew.bat
