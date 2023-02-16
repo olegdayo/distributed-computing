@@ -8,7 +8,6 @@ services:
       - "4040:8080"
     volumes:
       - ./input:/input:ro
-      # - ./output/master:/output
       - ./src:/src
     entrypoint: /opt/spark/sbin/start-master.sh
     environment:

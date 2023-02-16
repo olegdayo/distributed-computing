@@ -9,9 +9,6 @@ Project Structure:
 main-task
 ├── main.py # Python script
 ├── target # Result directory, ignored in .gitignore
-│   ├── _SUCCESS
-│   ├── part-00000
-│   └── part-00001
 └── wnp.txt # War and Peace book text
 ```
 
@@ -151,3 +148,99 @@ There are so many jobs because I am running both of the solutions
 ## Extra task
 
 Task: Launch Spark cluster containing 1 master and 2 workers and run the previous app on it
+
+Project structure
+
+```bash
+extra-task
+├── docker-compose.yml # File for creating 3 containers
+├── input # Directory with needed file
+│   └── wnp.txt
+├── output # Directory with all the output
+│   ├── worker-a
+│   └── worker-b
+└── src # Directory with script
+    └── main.py
+```
+
+To be honest, launching virtual machines is a quite tedious process, so I decided to automise it with Docker.
+
+The whole script of Compose:
+```yaml
+version: "3.3"
+services:
+
+  spark-master:
+    image: apache/spark-py
+    user: root
+    ports:
+      - "4040:8080"
+    volumes:
+      - ./input:/input:ro
+      - ./src:/src
+    entrypoint: /opt/spark/sbin/start-master.sh
+    environment:
+      - SPARK_NO_DAEMONIZE=1
+
+  spark-worker-a:
+    image: apache/spark-py
+    user: root
+    ports:
+      - "4041:8081"
+    volumes:
+      - ./input:/input:ro
+      - ./output/worker-a:/output
+    entrypoint: /opt/spark/sbin/start-worker.sh spark://spark-master:7077
+    environment:
+      - SPARK_NO_DAEMONIZE=1
+
+  spark-worker-b:
+    image: apache/spark-py
+    user: root
+    ports:
+      - "4042:8081"
+    volumes:
+      - ./input:/input:ro
+      - ./output/worker-b:/output
+    entrypoint: /opt/spark/sbin/start-worker.sh spark://spark-master:7077
+    environment:
+      - SPARK_NO_DAEMONIZE=1
+```
+
+To launch all 3 containers we need to run `docker-compose up --build -d`
+
+After it you can see output:
+
+```
+[+] Running 4/4
+ ⠿ Network extra-task_default             Created   0.0s
+ ⠿ Container extra-task-spark-master-1    Started   0.7s
+ ⠿ Container extra-task-spark-worker-a-1  Started   0.9s
+ ⠿ Container extra-task-spark-worker-b-1  Started   0.9s
+```
+
+To stop the whole application we need to execute command `docker-compose down`
+
+It will be followed by logs:
+
+```
+[+] Running 4/3
+ ⠿ Container extra-task-spark-worker-b-1  Removed   10.3s
+ ⠿ Container extra-task-spark-worker-a-1  Removed   10.4s
+ ⠿ Container extra-task-spark-master-1    Removed   10.4s
+ ⠿ Network extra-task_default             Removed   0.1s
+```
+
+Now it is time to check if the spark application is running
+
+We can visit localhost:4040 to check the state of master and localhost:4041 and localhost:4042 to see the workers:
+
+So we have the whole system running, now it is time to submit the script
+
+To do it we need to connect to container terminal via `docker exec -it <container-id> bash` or simply use the Docker Desktop application
+
+As soon as we reach the terminal, we need to run the following command to make the whole system to start working `cd / && ./opt/spark/bin/spark-submit src/main.py`
+
+Afterwards we can look through the logs and finally visit localhost:4040, localhost:4041 and localhost:4042 once more:
+
+Also in our local files an output directory containing all the answers has been created
