@@ -140,12 +140,14 @@ Now we used MapReduce and are ready to work with Spark: `spark-submit main.py`
 
 Spark when it just started:
 
-![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-1.png)
+![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/1.png)
 
 Spark when it finished working:
 
-![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-2.png)
+![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/2.png)
 
 There are so many jobs because I am running both of the solutions
 
 ## Extra task
+
+Task: Launch Spark cluster containing 1 master and 2 workers and run the previous app on it
