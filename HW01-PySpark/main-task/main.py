@@ -38,7 +38,7 @@ class WordCounter:
 
         res.saveAsTextFile(self.output_path)
         print(
-            *map(lambda pair: f'{pair[0]}: {pair[1]}', res.collect()[:10]),
+            *map(lambda pair: f'{pair[0]}: {pair[1]}', res.collect()[:WORDS_NUMBER]),
             sep='\n',
         )
 
@@ -65,7 +65,7 @@ class WordCounter:
             # Counting and sorting by count descending
             'count',
             ascending=False,
-        ).show()
+        ).show(n=WORDS_NUMBER)
 
 
 def super_log(message: str):
@@ -80,9 +80,10 @@ def super_log(message: str):
 
 INPUT_PATH: str = 'wnp.txt'
 OUTPUT_PATH: str = 'target'
+WORDS_NUMBER: int = 10
 
 # Regular Expression which checks if word only contains a-z or A-Z letters
-IS_WORD = re.compile('[a-z]+', re.IGNORECASE)
+IS_WORD: re.Pattern = re.compile('[a-z]+', re.IGNORECASE)
 
 
 if __name__ == '__main__':
