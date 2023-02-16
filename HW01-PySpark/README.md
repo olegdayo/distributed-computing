@@ -121,8 +121,10 @@ As you can see, the results are a bit different because in my solution I only fi
 Now we used MapReduce and are ready to work with Spark: `spark-submit main.py`
 
 Spark when it just started:
+![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-1.png)
 
 Spark when it finished working:
+![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-2.png)
 
 There are so many jobs because I am running both of the solutions
 
