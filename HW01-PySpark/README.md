@@ -12,9 +12,9 @@ main-task
 └── wnp.txt # War and Peace book text
 ```
 
-Firstly, I installed PySpark via running `pip3 install pyspark`
+Firstly, I installed *PySpark* via running `pip3 install pyspark`
 
-Then I created a project and started exploring PySpark without any tutorials :D
+Then I created a project and started exploring *PySpark* without any tutorials :D
 
 I didn't save the exact code I wrote but it was somewhat similar to final version:
 
@@ -133,21 +133,21 @@ was: 7193
 
 As you can see, the results are a bit different because in my solution I only filtered empty strings, while in the main one I wrote regular expression which checks that all of the symbols are English alphabet letters
 
-Now we used MapReduce and are ready to work with Spark: `spark-submit main.py`
+Now we used MapReduce and are ready to work with *Spark*: `spark-submit main.py`
 
-Spark when it just started:
+*Spark* when it just started:
 
-![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/1.png)
+![main-1](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/1.png)
 
-Spark when it finished working:
+*Spark* when it finished working:
 
-![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/2.png)
+![main-2](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main/2.png)
 
 There are so many jobs because I am running both of the solutions
 
 ## Extra task
 
-Task: Launch Spark cluster containing 1 master and 2 workers and run the previous app on it
+Task: Launch *Spark* cluster containing 1 master and 2 workers and run the previous app on it
 
 Project structure
 
@@ -163,9 +163,9 @@ extra-task
     └── main.py
 ```
 
-To be honest, launching virtual machines is a quite tedious process, so I decided to automise it with Docker.
+To be honest, launching virtual machines is a quite tedious process, so I decided to automise it with *Docker*
 
-The whole script of Compose:
+The whole script of *Compose*:
 ```yaml
 version: "3.3"
 services:
@@ -209,7 +209,7 @@ services:
 
 To launch all 3 containers we need to run `docker-compose up --build -d`
 
-After it you can see output:
+After it finished working you can see output:
 
 ```
 [+] Running 4/4
@@ -231,16 +231,38 @@ It will be followed by logs:
  ⠿ Network extra-task_default             Removed   0.1s
 ```
 
-Now it is time to check if the spark application is running
+Furthermore, we can see stats via *Docker Desktop* graphical user interface:
 
-We can visit localhost:4040 to check the state of master and localhost:4041 and localhost:4042 to see the workers:
+![extra-1](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/1.png)
+
+Now it is time to check if the *Spark* application is running
+
+We can visit *localhost:4040* to check the state of master, *localhost:4041* and *localhost:4042* to see the workers:
+
+![extra-2](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/2.png)
+
+![extra-3](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/3.png)
+
+![extra-4](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/4.png)
 
 So we have the whole system running, now it is time to submit the script
 
-To do it we need to connect to container terminal via `docker exec -it <container-id> bash` or simply use the Docker Desktop application
+To do it we need to connect to container terminal via `docker exec -it <container-id> bash` or simply use the *Docker Desktop* application
 
-As soon as we reach the terminal, we need to run the following command to make the whole system to start working `cd / && ./opt/spark/bin/spark-submit src/main.py`
+As soon as we reach the terminal, we need to run the following command to make the whole system to start working `cd / && ./opt/spark/bin/spark-submit src/main.py`:
 
-Afterwards we can look through the logs and finally visit localhost:4040, localhost:4041 and localhost:4042 once more:
+![extra-5](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/5.png)
+
+Afterwards we can look through the logs (they were actually the same as the previous task except more *Spark* info logs) and finally visit *localhost:4040*, *localhost:4041* and *localhost:4042* once more:
+
+![extra-6](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/6.png)
+
+![extra-7](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/7.png)
+
+![extra-8](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/extra/8.png)
 
 Also in our local files an output directory containing all the answers has been created
+
+## Summary
+
+We have successfully written a simple *MapReduce* application using *PySpark* and launched it on a *Spark* cluster which contained 1 master node and 2 worker nodes!
