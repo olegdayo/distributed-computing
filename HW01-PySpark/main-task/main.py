@@ -1,5 +1,6 @@
 import pyspark.sql.functions as f
 from pyspark.sql import SparkSession
+import re
 
 
 class WordCounter:
@@ -17,13 +18,29 @@ class WordCounter:
             Solution based on presentation tutorial
         '''
 
-        self.spark.sparkContext.textFile(self.input_path).flatMap(
-            lambda line: line.split(' ')
+        res = self.spark.sparkContext.textFile(
+            self.input_path,
+        ).flatMap(
+            # Splitting words
+            lambda line: line.split(' '),
+        ).filter(
+            # Filtering words: for instance, 'abc' is a word and 'abc123.,-' is not
+            lambda line: IS_WORD.match(line),
         ).map(
-            lambda word: (word, 1)
+            lambda word: (word, 1),
         ).reduceByKey(
-            lambda count1, count2: count1 + count2
-        ).saveAsTextFile(self.output_path)
+            lambda count1, count2: count1 + count2,
+        ).sortBy(
+            # Sorting by count descending
+            lambda pair: pair[1],
+            ascending=False,
+        )
+
+        res.saveAsTextFile(self.output_path)
+        print(
+            *map(lambda pair: f'{pair[0]}: {pair[1]}', res.collect()[:10]),
+            sep='\n',
+        )
 
     def other_solution(self):
         '''
@@ -33,16 +50,19 @@ class WordCounter:
         self.spark.read.text(INPUT_PATH).withColumn(
             'word',
             f.explode(
-                f.split(  # Splitting strings and getting separate words
+                f.split(
+                    # Splitting strings and getting separate words
                     f.lower(f.col('value')),
                     ' ',
                 )
             )
-        ).filter(  # Filtering empty strings
-            f.col('value') != ''
+        ).filter(
+            # Filtering empty strings
+            f.col('value') != '',
         ).groupBy(
             'word',
-        ).count().sort(  # Counting and sorting by count descending
+        ).count().sort(
+            # Counting and sorting by count descending
             'count',
             ascending=False,
         ).show()
@@ -60,6 +80,9 @@ def super_log(message: str):
 
 INPUT_PATH: str = 'wnp.txt'
 OUTPUT_PATH: str = 'target'
+
+# Regular Expression which checks if word only contains a-z or A-Z letters
+IS_WORD = re.compile('[a-z]+', re.IGNORECASE)
 
 
 if __name__ == '__main__':
