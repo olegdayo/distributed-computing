@@ -16,5 +16,6 @@ settings.gradle
 target/
 build/
 out/
+output/
 gradle/
 gradlew.bat
