@@ -101,7 +101,25 @@ def main_solution(self):
     )
 ```
 
-So I ran the app and got both target directory with all the words counts and top 10 words were written to terminal:
+So I ran the app and got target directory with all the words counts:
+
+```
+...
+('from', 2517)
+('you', 2422)
+('said', 2406)
+('were', 2352)
+('by', 2316)
+...
+('scented,', 1)
+('canceled.', 1)
+('wearisome.”', 1)
+('wound-up', 1)
+('Novosíltsev’s', 1)
+...
+```
+
+Also I saw top 10 words were written to terminal:
 
 ```
 the: 31714
@@ -121,9 +139,11 @@ As you can see, the results are a bit different because in my solution I only fi
 Now we used MapReduce and are ready to work with Spark: `spark-submit main.py`
 
 Spark when it just started:
+
 ![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-1.png)
 
 Spark when it finished working:
+
 ![](https://github.com/offluck/distributed-computing/blob/master/HW01-PySpark/pics/main-2.png)
 
 There are so many jobs because I am running both of the solutions
