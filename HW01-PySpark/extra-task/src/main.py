@@ -2,8 +2,8 @@ from pyspark import SparkContext
 import re
 
 
-INPUT_PATH: str = 'wnp.txt'
-OUTPUT_PATH: str = 'target'
+INPUT_PATH: str = 'input/wnp.txt'
+OUTPUT_PATH: str = 'output'
 WORDS_NUMBER: int = 10
 
 # Regular Expression which checks if word only contains a-z or A-Z letters
